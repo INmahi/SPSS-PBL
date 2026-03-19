@@ -23,20 +23,17 @@ By doing this project, learners can:
 
 1. [Project Overview](#project-overview)
 2. [Workspace Structure](#workspace-structure)
-3. [Project Folder Structure (Visual)](#project-folder-structure-visual)
-4. [Data Import](#data-import)
-5. [Phase 1: Data Cleaning](#phase-1-data-cleaning)
-6. [Phase 2: Feature Engineering](#phase-2-feature-engineering)
-7. [Visualization](#visualization)
-8. [Merging Datasets](#merging-datasets)
-9. [Select Cases in SPSS](#select-cases-in-spss)
-10. [Descriptive Statistics in SPSS](#descriptive-statistics-in-spss)
-11. [Custom Tables in SPSS](#custom-tables-in-spss)
-12. [Correlation Analysis](#correlation-analysis)
-13. [Regression Analysis](#regression-analysis)
-14. [Export Cleaned Dataset](#export-cleaned-dataset)
-15. [SPSS Syntax Quick Reference](#spss-syntax-quick-reference)
-16. [Notes](#notes)
+3. [Data Import](#data-import)
+4. [Phase 1: Data Cleaning](#phase-1-data-cleaning)
+5. [Phase 2: Feature Engineering](#phase-2-feature-engineering)
+6. [Visualization](#visualization)
+7. [Merging Datasets](#merging-datasets)
+8. [Select Cases in SPSS](#select-cases-in-spss)
+9. [Descriptive Statistics in SPSS](#descriptive-statistics-in-spss)
+10. [Custom Tables in SPSS](#custom-tables-in-spss)
+11. [Export Cleaned Dataset](#export-cleaned-dataset)
+12. [SPSS Syntax Quick Reference](#spss-syntax-quick-reference)
+13. [Notes](#notes)
 
 ---
 
@@ -49,41 +46,27 @@ This README documents a complete SPSS workflow for:
 - Handling duplicates and outliers
 - Creating engineered features
 - Producing charts for analysis
-- custom tables for reporting
-- Running descriptive statistics, correlation, and regression analyses
 - Exporting a final cleaned dataset
 
 The workflow is reproducible using both SPSS GUI actions and syntax.
 
 ---
 
-## Project Folder Structure (Visual)
+## Workspace Structure
 
-```text
-SPSS/
-|-- README.md
-|-- data/
-|   |-- raw/          # Original source files (do not modify)
-|   |-- cleaned/      # Final processed datasets and exports
-|   `-- Source/       # Data dictionary and reference notes to understand variables
-`-- spss/
-	|-- files/        # Main .sav working files during analysis
-	|-- syntax/       # Reproducible SPSS scripts (.sps)
-	`-- output/       # SPSS output viewer files (.spv)
-```
+Key folders in this workspace:
 
-How to read this structure:
-
-- `data/raw` is your immutable input layer. (do not modify this files)
-- `spss/files` is the working layer where transformations are applied.
-- `spss/syntax` is the logic layer that makes your workflow reproducible.
-- `spss/output` is the reporting layer for generated analysis output.
-- `data/cleaned` is your publish/share layer for final deliverables.
+- `data/raw`: Raw source files (`.sav`, `.csv`, `.xlsx`)
+- `data/Source`: Data dictionary/reference notes (`student.txt`)
+- `data/cleaned`: Final cleaned outputs
+- `spss/files`: Working SPSS files and process notes
+- `spss/syntax`: SPSS syntax scripts
+- `spss/output`: SPSS output viewer files (`.spv`)
 
 ---
 
 ## Data Import
-you can import data into SPSS using the manually or syntax. The key is to ensure that you correctly specify delimiters, decimal symbols, and variable names during import to avoid issues later in the workflow.
+
 ### Import from CSV (GUI)
 
 1. Open SPSS and select CSV import.
@@ -410,44 +393,39 @@ Example setups:
 > Screenshot placeholder: Custom table example 3.
 
 ---
-## Correlation Analysis
-
+### Correlation Analysis
 To analyze the relationship between `studytime_hours` and `finalGrade`:
 
 1. Go to `Analyze > Correlate > Bivariate`.
 2. Move both variables to the analysis box.
 3. Ensure `Pearson` is selected.
-4. Click `OK` to run and inspect output, or click `Paste` and run from syntax.
+4. Click `OK` to run and inspect output or click paste and run from syntax.
 
-Quick guide to interpret correlation output:
-
+box this area: 
+quicl guide to interprete correlation output:
 - Correlation coefficient (r): ranges from -1 to 1. Closer to ±1 indicates a stronger relationship.
 - Sign of r: positive means both variables increase together; negative means one increases while the other decreases.
 - Sig. 2-tailed (p-value): typically, p < 0.05 indicates a statistically significant correlation.
 
-> Screenshot placeholder: Correlation output.
-
+> screenshot goes here
 ---
+# Regression Analysis
 
-## Regression Analysis
-
-Visualize the relationship between `studytime_hours` and `finalGrade` with a scatterplot, then run linear regression:
+lets visualize the relationship between `studytime_hours` and `finalGrade` with a scatterplot and then run a simple linear regression:
 
 1. Scatterplot:
-   - Go to `Graphs > Chart Builder`.
-   - Choose Scatter/Dot and set `studytime_hours` on the x-axis and `finalGrade` on the y-axis.
-   - Click `OK` to create the scatterplot.
+	- Go to `Graphs > Chart Builder`.
+	- Choose Scatter/Dot and set `studytime_hours` on the x-axis and `finalGrade` on the y-axis.
+	- Click `OK` to create the scatterplot.
 
-> Screenshot placeholder: Scatterplot of studytime_hours vs finalGrade.
-
+> screenshot placeholder: Scatterplot of studytime_hours vs finalGrade.
 2. Linear Regression:
-   - Go to `Analyze > Regression > Linear`.
-   - Set `finalGrade` as the dependent variable and `studytime_hours` as the independent variable.
-   - Click `OK` to run the model.
-   - Run a second model with independent variables `scholarship_status` and `Dalc`, and dependent variable `finalGrade`.
+	- Go to `Analyze > Regression > Linear`.
+	- Set `finalGrade` as the dependent variable and `studytime_hours` as the independent variable.
+	- Click `OK` to run the regression.
+	-run another regression, this time indepentent variables will be `scholarship_status`, ``Dalc` , `scholarship_status`and dependent variable will be `finalGrade`
 
-> Screenshot placeholder: Linear regression output.
-
+> screenshot placeholder: Linear regression output.
 ---
 
 ## Export Cleaned Dataset
