@@ -1,4 +1,4 @@
-# SPSS Student Performance Workflow
+# SPSS Data Analysis PBL Project
 
 ![Project Banner](img/banner.png)
 
