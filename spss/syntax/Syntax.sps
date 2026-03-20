@@ -148,3 +148,35 @@ CORRELATIONS
   /VARIABLES=studytime_hours finalGrade
   /PRINT=TWOTAIL NOSIG
   /MISSING=PAIRWISE.
+
+* Chart Builder.
+GGRAPH
+  /GRAPHDATASET NAME="graphdataset" VARIABLES=studytime_hours finalGrade MISSING=LISTWISE 
+    REPORTMISSING=NO
+  /GRAPHSPEC SOURCE=INLINE
+  /FITLINE TOTAL=YES.
+BEGIN GPL
+  SOURCE: s=userSource(id("graphdataset"))
+  DATA: studytime_hours=col(source(s), name("studytime_hours"))
+  DATA: finalGrade=col(source(s), name("finalGrade"))
+  GUIDE: axis(dim(1), label("studytime_hours"))
+  GUIDE: axis(dim(2), label("finalGrade"))
+  GUIDE: text.title(label("Simple Scatter with Fit Line of finalGrade by studytime_hours"))
+  ELEMENT: point(position(studytime_hours*finalGrade))
+END GPL.
+
+REGRESSION
+  /MISSING LISTWISE
+  /STATISTICS COEFF OUTS R ANOVA
+  /CRITERIA=PIN(.05) POUT(.10)
+  /NOORIGIN 
+  /DEPENDENT finalGrade
+  /METHOD=ENTER studytime_hours.
+
+REGRESSION
+  /MISSING LISTWISE
+  /STATISTICS COEFF OUTS R ANOVA
+  /CRITERIA=PIN(.05) POUT(.10)
+  /NOORIGIN 
+  /DEPENDENT finalGrade
+  /METHOD=ENTER studytime_hours scholarship_status Dalc.

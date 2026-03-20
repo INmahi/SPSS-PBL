@@ -19,24 +19,28 @@ By doing this project, learners can:
 
 ---
 
+### Quick Start: 
+1. click 'code' and download as ZIP, then extract to your local drive.
+2. Open `spss/files/main.sav` in SPSS to start working
+3. Follow the README steps to complete the workflow, using both GUI and syntax as needed.
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-2. [Workspace Structure](#workspace-structure)
-3. [Project Folder Structure (Visual)](#project-folder-structure-visual)
-4. [Data Import](#data-import)
-5. [Phase 1: Data Cleaning](#phase-1-data-cleaning)
-6. [Phase 2: Feature Engineering](#phase-2-feature-engineering)
-7. [Visualization](#visualization)
-8. [Merging Datasets](#merging-datasets)
-9. [Select Cases in SPSS](#select-cases-in-spss)
-10. [Descriptive Statistics in SPSS](#descriptive-statistics-in-spss)
-11. [Custom Tables in SPSS](#custom-tables-in-spss)
-12. [Correlation Analysis](#correlation-analysis)
-13. [Regression Analysis](#regression-analysis)
-14. [Export Cleaned Dataset](#export-cleaned-dataset)
-15. [SPSS Syntax Quick Reference](#spss-syntax-quick-reference)
-16. [Notes](#notes)
+2. [Project Folder Structure (Visual)](#project-folder-structure-visual)
+3. [Data Import](#data-import)
+4. [Phase 1: Data Cleaning](#phase-1-data-cleaning)
+5. [Phase 2: Feature Engineering](#phase-2-feature-engineering)
+6. [Visualization](#visualization)
+7. [Merging Datasets](#merging-datasets)
+8. [Select Cases in SPSS](#select-cases-in-spss)
+9. [Descriptive Statistics in SPSS](#descriptive-statistics-in-spss)
+10. [Custom Tables in SPSS](#custom-tables-in-spss)
+11. [Correlation Analysis](#correlation-analysis)
+12. [Regression Analysis](#regression-analysis)
+13. [Export Cleaned Dataset](#export-cleaned-dataset)
+14. [SPSS Syntax Quick Reference](#spss-syntax-quick-reference)
+15. [Notes](#notes)
 
 ---
 
@@ -105,7 +109,6 @@ GET DATA
 
 After import, save the dataset as `.sav` for processing.
 
-> Screenshot placeholder: Import wizard settings and data preview.
 
 ---
 
@@ -120,51 +123,73 @@ Use frequency tables to detect:
 
 Path: `Analyze > Descriptive Statistics > Frequencies`
 
-> Screenshot placeholder: Frequencies dialog and output table.
+we can identify missing values in `famrel` and `studytime`, and inconsistent coding in `sex` from the frequency output.
+
+![frequency table](img/freq.png)
+![frequency table](img/freq-missing.png)
+![frequency table](img/sex-coding.png)
 
 ### 2) Standardize the `sex` Variable
 
 - Recode inconsistent text values into standard `M` and `F`.
-- Use **Recode into Same Variables** for in-place cleanup.
+- Use **Recode into Same Variables** to edit the same `sex` variable column.
 
 Then define value labels in Variable View for readability.
 
-> Screenshot placeholder: Recode setup and value labels.
+![sex recode](img/recode-same.png)
+select variable
+![sex recodee](img/recode-2.png)
+select new values by clicking `Old and New Values` button
+![recode sex](img/recode-3.png)
+![recode sex](img/recode-4.png)
+![recode sex](img/recode-5.png)
+
+**we can achive the same by the following syntax:**
+
+![syntaxt](img/recode-6.png)
+
+
 
 ### 3) Create Numeric Sex Variable
 
-Create a new variable such as `sex_numeric`:
+we want to Create a new variable such as `sex_numeric`:
 
 - `M -> 0`
 - `F -> 1`
 
-Use **Recode into Different Variables** because this is a new field.
+Use **Recode into Different Variables** because this is a new variable.
 
-> Screenshot placeholder: Different-variable recode mapping.
-
+![recode different](img/recode-diff.png)
+![recode different](img/recode-diff-m.png)
+enter new variable name and label, then set the recode values by clicking `Old and New Values` button.
+![recode different](img/recode-diff-2.png)
 ### 4) Handle Missing Values
 
-From profiling:
+From profiling (the frequency tables):
 
 - `famrel` has high missingness (about 44%): drop the variable if it has low analytical value.
 - `studytime` has moderate missingness (about 13%): impute with mean.
+	`transform>replace missing values>selcect studytime> method: series mean>ok`
 
 Example syntax to drop a variable:
 
 ```spss
 DELETE VARIABLES famrel.
 ```
+to replace missing values with mean for studytime:
 
-> Screenshot placeholder: Missing-value summary and imputation setup.
+![replace missing](img/missing1.png) ![replace missing](img/missing-2.png)
+
 
 ### 5) Detect Outliers
 
 Path: `Graphs > Legacy Dialogs > Boxplot`
-
+- the numbers in the boxplot represent case numbers, which can be used to identify outlier records in the dataset.
 - Use case numbers shown in the chart to inspect outlier records.
 - In this project, outlier values were corrected by cross-checking with the source dataset.
 
-> Screenshot placeholder: Boxplot with outlier case labels.
+![boxplot](img/out1.png)
+![boxplot](img/out3.png)
 
 ### 6) Detect and Remove Duplicate Cases
 
@@ -179,14 +204,17 @@ It is important to remove duplicates before creating new features to avoid propa
 	 - `1` = primary row (keep)
 	 - `0` = duplicate row
 
-Keep only primary rows:
+![duplicate detection](img/dupl.png)
+![duplicate detection](img/dupl1.png)
+
+
+Now we will Keep only primary rows:
 
 ```spss
 SELECT IF (PrimaryLast = 1).
 EXECUTE.
 ```
 
-> Screenshot placeholder: Duplicate-case settings and filtered result.
 
 ---
 
@@ -230,8 +258,10 @@ EXECUTE.
 
 Then label values (for example: `1=Dhaka`, `2=Chattogram`, etc.).
 
-> Screenshot placeholder: District generation and value label setup.
-
+![District Variable Creation](img/district.png)
+![District Variable Creation](img/district.png)
+![District Variable Creation](img/district2.png)
+---
 ### 5) Convert Ordinal Study Time into Estimated Hours
 
 Because `studytime` is ordinal (1 to 4), map each category to a realistic hour range:
@@ -309,6 +339,7 @@ Then create:
 
 Save as `spss/files/new_variables.sav`.
 
+Once our second dataset is ready, we can merge it with the main dataset.
 Merge steps:
 
 1. Open both datasets in SPSS.
@@ -376,9 +407,10 @@ EXECUTE.
 3. Click `Options` to add statistics (variance, range, and others).
 4. Click `OK` to run and inspect output.
 
-Frequency tables are also essential descriptive checks for categorical variables.
+Frequency tables are also essential descriptive checks for categorical variables, I have shown how to run frequencies in the data cleaning section, but you can also run them at any point to check distributions after transformations.
 
-> Screenshot placeholder: Descriptives output.
+![Descriptive Statistics](img/stats1.png)
+![Descriptive Statistics](img/stats2.png)
 
 ---
 
@@ -387,12 +419,16 @@ Frequency tables are also essential descriptive checks for categorical variables
 Custom Tables are powerful for structured analysis and reporting.
 
 1. Go to `Analyze > Tables > Custom Tables`.
-2. Apply the golden rule:
-	 - Rows = groups/categories you compare.
-	 - Columns = measures/statistics you report.
+2. Apply the *golden rule*:
+	 - drag a variable to *Rows* if it is a group/category you want to compare(district,scholarship_status etc).
+	 - drag a variable to *Columns* if it is a measure/statistic/data (finalGrade,result etc)  you report.
+3. select a row item or a column item, then click the ` Summary Statistics` button to choose relevant statistics (mean, count, percentage, etc.).
+
+![custom tables](img/table1.png)
+![custom tables](img/table-3.png)
+![custom tables](img/table4.png)
 
 Practice questions:
-
 1. How is the student population distributed across district and sex?
 2. Do `schoolsup` and `paid` groups differ in `finalGrade`?
 3. How do `studytime_hours` and `finalGrade` vary across combinations of `scholarship_status` and `internet`?
@@ -403,12 +439,10 @@ Example setups:
 2. Rows: `schoolsup`, `paid`; Columns: `finalGrade`; Statistics: Mean, Max, Min, Std. Dev.
 3. Rows: `scholarship_status`, `internet`; Columns: `studytime_hours`, `finalGrade`; Statistics: Mean
 
-> Screenshot placeholder: Custom table example 1.
->
-> Screenshot placeholder: Custom table example 2.
->
-> Screenshot placeholder: Custom table example 3.
-
+1. ![custom tables](img/table2.png) ![custom tables](img/tables-01.png)
+2. ![custom tables](img/table-3.png)
+3. ![custom tables](img/table5.png)
+	![custom tables](img/table6.png)
 ---
 ## Correlation Analysis
 
@@ -425,8 +459,7 @@ Quick guide to interpret correlation output:
 - Sign of r: positive means both variables increase together; negative means one increases while the other decreases.
 - Sig. 2-tailed (p-value): typically, p < 0.05 indicates a statistically significant correlation.
 
-> Screenshot placeholder: Correlation output.
-
+![Correlation Output](img/corr.png)
 ---
 
 ## Regression Analysis
@@ -438,7 +471,7 @@ Visualize the relationship between `studytime_hours` and `finalGrade` with a sca
    - Choose Scatter/Dot and set `studytime_hours` on the x-axis and `finalGrade` on the y-axis.
    - Click `OK` to create the scatterplot.
 
-> Screenshot placeholder: Scatterplot of studytime_hours vs finalGrade.
+![Scatterplot](img/scatter-regr.png)
 
 2. Linear Regression:
    - Go to `Analyze > Regression > Linear`.
@@ -446,7 +479,12 @@ Visualize the relationship between `studytime_hours` and `finalGrade` with a sca
    - Click `OK` to run the model.
    - Run a second model with independent variables `scholarship_status` and `Dalc`, and dependent variable `finalGrade`.
 
-> Screenshot placeholder: Linear regression output.
+![Regression Output](img/regr.png)
+![Regression Output](img/regr2.png)
+![Regression Output](img/regr3.png)
+![Regression Output](img/regr4.png)
+
+
 
 ---
 
