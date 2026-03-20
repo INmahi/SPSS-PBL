@@ -20,9 +20,10 @@ By doing this project, learners can:
 ---
 
 ### Quick Start: 
-1. click 'code' and download as ZIP, then extract to your local drive.
-2. Open `spss/files/main.sav` in SPSS to start working
-3. Follow the README steps to complete the workflow, using both GUI and syntax as needed.
+
+| Make the project yourself by Reading this Documentation | Download and View The proect in your Computer |
+|------|-------------|
+| 1. Download the data-raw.xlsx from this repository. `Then` import  the excel in spss and start following the steps from [Phase 1](#phase-1-data-cleaning) | Click 'code' and download as ZIP, then extract to your local drive. `Then` Open `spss/files/main.sav` in SPSS to start working/viewing |
 
 ## Table of Contents
 
@@ -67,7 +68,7 @@ The workflow is reproducible using both SPSS GUI actions and syntax.
 SPSS/
 |-- README.md
 |-- data/
-|   |-- raw/          # Original source files (do not modify)
+|   |-- raw/          # Original source files (do not modify, just import into SPSS)
 |   |-- cleaned/      # Final processed datasets and exports
 |   `-- Source/       # Data dictionary and reference notes to understand variables
 `-- spss/
@@ -87,14 +88,22 @@ How to read this structure:
 ---
 
 ## Data Import
-you can import data into SPSS using the manually or syntax. The key is to ensure that you correctly specify delimiters, decimal symbols, and variable names during import to avoid issues later in the workflow.
+you can import data into SPSS manually or using syntax. The key is to ensure that you correctly specify delimiters, decimal symbols, and variable names during import to avoid issues later in the workflow.
+
 ### Import from CSV (GUI)
 
-1. Open SPSS and select CSV import.
+1. Open SPSS path `File > import Dats > CSV data > Choose CSV file`.
 2. In the Text Import Wizard:
 	 - Set decimal symbol correctly (comma if needed).
 	 - Confirm variable names are in row 1.
 	 - Verify delimiter and text qualifier by checking the raw CSV.
+	 - Confirm preview before finishing.
+
+### Import from Excel (Manuallay/GUI)
+1. Open SPSS path `File > import Dats > Excel data > Choose Excel file`.
+2. In the Excel Import Wizard:
+	 - Select the correct sheet (e.g., `data-raw`).
+	 - Ensure "Read variable names from the first row of data" is checked. (if the first row contains variable names)
 	 - Confirm preview before finishing.
 
 ### Import from Excel (Syntax)
@@ -102,7 +111,7 @@ you can import data into SPSS using the manually or syntax. The key is to ensure
 ```spss
 GET DATA
 	/TYPE = XLSX
-	/FILE = 'G:\Projects\SPSS\data\raw\data-raw.xlsx'
+	/FILE = 'your_file_path_here.xlsx'
 	/SHEET = name 'data-raw'
 	/READNAMES = ON.
 ```
@@ -125,9 +134,10 @@ Path: `Analyze > Descriptive Statistics > Frequencies`
 
 we can identify missing values in `famrel` and `studytime`, and inconsistent coding in `sex` from the frequency output.
 
-![frequency table](img/freq.png)
-![frequency table](img/freq-missing.png)
-![frequency table](img/sex-coding.png)
+| step | screenshot |
+|------|-------------|
+|Run frequency to detect problems | ![frequency table](img/freq.png) |
+|We find coding issues in `sex` and missing values in `famrel` and `studytime`| ![frequency table](img/freq-missing.png) ![frequency table](img/sex-coding.png) |
 
 ### 2) Standardize the `sex` Variable
 
@@ -200,7 +210,7 @@ Path: `Graphs > Legacy Dialogs > Boxplot`
 
 Path: `Data > Identify Duplicate Cases`
 
-It is important to remove duplicates before creating new features to avoid propagating errors.
+**It is important to remove duplicates before creating new features to avoid propagating errors.**
 
 1. Define matching cases by selecting the variables that identify duplicates.
 2. If there is no unique ID, use all variables for duplicate detection.
@@ -238,9 +248,16 @@ EXECUTE.
 
 Combine three grade components into one percentage feature:
 
+
 ```spss
 COMPUTE finalGrade = ((G1 + G2 + G3) / 60) * 100.
 EXECUTE.
+```
+or manually,
+| step 1 | step 2 |
+|------|-------------|
+|![f](img/p4-compute-1.png) | ![finalGrade](img/p4-compute2.png)|
+
 ```
 
 ### 3) Create Pass/Fail Flag
@@ -260,11 +277,24 @@ Generate a random district code from 1 to 8 and then apply value labels.
 COMPUTE district = RND(RV.UNIFORM(1, 8)).
 EXECUTE.
 ```
+or we can do this manually:
 
+|step 1| step 2 | step 3 |
+|------|------|-------------|
+| `transform>compute Variable`|![District Variable Creation](img/feature-uniform.png) | ![District Variable Creation](img/feature-uniform-2.png) |
+
+#### adding value labels 
 Then label values (for example: `1=Dhaka`, `2=Chattogram`, etc.).
+for this: `variable view>district>values>three dots` and add value labels.
 
-![District Variable Creation](img/district.png)
-![District Variable Creation](img/district.png)
+
+
+![District Variable Creation](img/value_label.png)
+
+| Screenshot | click the following button to see labels |
+|------|-------------|
+|![f](img/district.png) | ![finalGrade](img/district1.png)|
+
 ![District Variable Creation](img/district2.png)
 ---
 ### 5) Convert Ordinal Study Time into Estimated Hours
@@ -290,7 +320,6 @@ Brief explanation:
 - It assigns a random hour value inside a category-specific range.
 - This creates a continuous variable (`studytime_hours`) suitable for scatterplots.
 
-> Screenshot placeholder: `studytime` to `studytime_hours` transformation.
 
 ---
 
@@ -306,11 +335,13 @@ Recommended charts:
 
 If `studytime` is not converted to a continuous variable, scatterplots stack at only four x-values (1, 2, 3, 4), limiting trend visibility.
 
-> Screenshot placeholder: Bar chart.
->
-> Screenshot placeholder: Boxplot.
->
-> Screenshot placeholder: Scatterplot.
+![graphs](img/graph1.png)
+
+| Chart Type | Output |
+|------|-------------|
+|Bar Chart|![bar](img/graph2.png) ![bar](img/graph3.png) ![bar](img/graph4.png)|
+|Boxplot|![boxplot](img/graph6.png) ![boxplot](img/graph5.png)|
+|Scatterplot|![scatter](img/scatter.png)|
 
 ---
 
@@ -341,6 +372,16 @@ Then create:
 
 - `scholarship_status` (1 = Yes, 0 = No)
 - `socialMediaEngagement` (1 to 4)
+here is the two new variable of the new data set. check out previous lessons if you cannot do it yourself:
+
+**new_variables.sav** path: `spss/files/new_variables.sav`
+| Screenshot 1 | Screenshot 2 |
+|------|-------------|
+|![f](img/new_var1.png) | ![finalGrade](img/new_var2.png)|
+
+Add value labels to the new variables for clarity: check [how to add value labels](#adding-value-labels) section if you forgot.
+
+![Value Labels](img/new_var3.png)
 
 Save as `spss/files/new_variables.sav`.
 
@@ -353,11 +394,20 @@ Merge steps:
 4. Select `new_variables.sav` as source.
 5. Match by `student_id`.
 
-> Screenshot placeholder: New variables dataset preview.
->
-> Screenshot placeholder: Add Variables merge setup.
+| step 1 | step 2 |
+|------|-------------|
+|![f](img/merge1.png) | ![finalGrade](img/merge2.png)|
 
-Always run frequencies after merging and inspect the output for mismatches or missing values.
+| step 3 | step 4 |
+|------|-------------|
+|![f](img/merge3.png) | ![finalGrade](img/merge4.png)|
+
+| step 5 | step 6 |
+|------|-------------|
+|![f](img/merge5.png) | ![finalGrade](img/merge6.png)|
+
+
+**Always run frequencies after merging and inspect the output for mismatches or missing values.**
 
 ### Situation 2: Add Cases
 
@@ -368,7 +418,6 @@ If you have new student responses:
 3. Append the new rows.
 4. Run frequencies to validate the merged result.
 
-> Screenshot placeholder: Add Cases merge setup.
 
 ---
 
@@ -484,12 +533,14 @@ Visualize the relationship between `studytime_hours` and `finalGrade` with a sca
    - Click `OK` to run the model.
    - Run a second model with independent variables `scholarship_status` and `Dalc`, and dependent variable `finalGrade`.
 
-![Regression Output](img/regr.png)
-![Regression Output](img/regr2.png)
-![Regression Output](img/regr3.png)
-![Regression Output](img/regr4.png)
 
+| Step 1  | Step 2  |
+|------|------|
+| ![Regression Output](img/regr.png) | ![Regression Output](img/regr2.png) |
 
+| Model 1 output | Model 2 output |
+|------|------|
+| ![Regression Output](img/regr3.png) | ![Regression Output](img/regr4.png) |
 
 ---
 
@@ -500,8 +551,6 @@ After validation, export the cleaned data for sharing or further analysis:
 1. Save final `.sav`.
 2. Export to Excel (`File > Export > Excel`).
 3. Store outputs in `data/cleaned`.
-
-> Screenshot placeholder: Export dialog and final file.
 
 ---
 
