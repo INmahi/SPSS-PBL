@@ -1,5 +1,7 @@
 # SPSS Student Performance Workflow
 
+![Project Banner](img/banner.png)
+
 ![SPSS](https://img.shields.io/badge/Tool-IBM%20SPSS-1261A0?style=for-the-badge)
 ![Data Cleaning](https://img.shields.io/badge/Stage-Data%20Cleaning-0B8457?style=for-the-badge)
 ![Feature Engineering](https://img.shields.io/badge/Stage-Feature%20Engineering-6A4C93?style=for-the-badge)
