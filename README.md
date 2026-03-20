@@ -136,13 +136,14 @@ we can identify missing values in `famrel` and `studytime`, and inconsistent cod
 
 Then define value labels in Variable View for readability.
 
-![sex recode](img/recode-same.png)
-select variable
-![sex recodee](img/recode-2.png)
-select new values by clicking `Old and New Values` button
-![recode sex](img/recode-3.png)
-![recode sex](img/recode-4.png)
-![recode sex](img/recode-5.png)
+| step | screenshot |
+|------|-------------|
+|Menu|![sex recode](img/recode-same.png)| 
+|select variable|![sex recodee](img/recode-2.png)|
+|select new values by clicking `Old and New Values` button|![recode sex](img/recode-3.png)|
+|![recode sex](img/recode-4.png)|![recode sex](img/recode-5.png)|
+
+
 
 **we can achive the same by the following syntax:**
 
@@ -160,9 +161,10 @@ we want to Create a new variable such as `sex_numeric`:
 Use **Recode into Different Variables** because this is a new variable.
 
 ![recode different](img/recode-diff.png)
-![recode different](img/recode-diff-m.png)
-enter new variable name and label, then set the recode values by clicking `Old and New Values` button.
-![recode different](img/recode-diff-2.png)
+
+| step | screenshot |
+|------|-------------|
+|enter new variable name and label, then set the recode values by clicking `Old and New Values` button.|![recode different](img/recode-diff-m.png) ![recode different](img/recode-diff-2.png)|
 ### 4) Handle Missing Values
 
 From profiling (the frequency tables):
@@ -176,9 +178,11 @@ Example syntax to drop a variable:
 ```spss
 DELETE VARIABLES famrel.
 ```
-to replace missing values with mean for studytime:
 
-![replace missing](img/missing1.png) ![replace missing](img/missing-2.png)
+to replace missing values with mean for studytime:
+| step 1 |      step 2 |
+|------|-------------|
+|![replace missing](img/missing1.png) | ![replace missing](img/missing-2.png) |
 
 
 ### 5) Detect Outliers
@@ -188,8 +192,9 @@ Path: `Graphs > Legacy Dialogs > Boxplot`
 - Use case numbers shown in the chart to inspect outlier records.
 - In this project, outlier values were corrected by cross-checking with the source dataset.
 
-![boxplot](img/out1.png)
-![boxplot](img/out3.png)
+| step 1 | Output |
+|------|-------------|
+|![boxplot](img/out1.png)|![boxplot](img/out3.png)|
 
 ### 6) Detect and Remove Duplicate Cases
 
